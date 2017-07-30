@@ -15,7 +15,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 //view engine set
 app.set("view engine", "ejs");
+app.use(express.static(__dirname +"/public"));
 seedDB();
+
+
 app.get("/", function(req,res){
   res.render("Landing"); //Landing Page
 });
