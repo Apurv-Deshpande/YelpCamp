@@ -4,11 +4,12 @@ var express = require("express"),
     mongoose = require("mongoose"),
     passport = require("passport"),
     LocalStrategy = require("passport-local"),
+    methodOverride = require("method-override"),
     Campground=require("./models/campground"),
     Comment = require("./models/comment"),
     User = require("./models/user");
 
-    //seedDB =require("./seeds"); seed the database
+    seedDB =require("./seeds"); //seed the database
 
 
     //routes redirect requirings
@@ -26,7 +27,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 //view engine set
 app.set("view engine", "ejs");
 app.use(express.static(__dirname +"/public"));
-//seedDB();
+app.use(methodOverride("_method"));
+seedDB();
 
 
 app.use(function(req,res,next){

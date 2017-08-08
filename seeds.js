@@ -21,7 +21,7 @@ var data = [
 
 function seedDB(){
   Campground.remove({}, function(err){
-/*  if(err){
+ if(err){
     console.log(err);
   }
   console.log("removed campgrounds");
@@ -49,7 +49,7 @@ function seedDB(){
 
         })
       }
-    });*/
+    });
   });
 };
 
