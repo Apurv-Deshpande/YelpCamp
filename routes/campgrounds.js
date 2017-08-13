@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var Campground = require("../models/campground");
+<<<<<<< HEAD
 var middleware = require("../middleware");
 var geocoder = require("geocoder");
 
@@ -41,16 +42,42 @@ router.post("/",middleware.isLoggedIn, function(req,res){
   var name=req.body.name;
   var image=req.body.image;
   var cost = req.body.cost;
+=======
+
+
+//index route showing all campgrounds
+router.get("/", function(req,res){// get method
+
+//Getting all camgrounds from db
+Campground.find({},function(err, allCampgrounds){
+  if(err){
+    console.log(err);
+  }else{
+    res.render("campgrounds/index", {campgrounds:allCampgrounds, currentUser:req.user});
+  }
+})
+});
+
+//create route -add new Campground to datbase
+router.post("/",isLoggedIn, function(req,res){
+  //getiing data from form and add to campgrounds array
+  var name=req.body.name;
+  var image=req.body.image;
+>>>>>>> a9aa5bf2d42c49b8a824f93b2d3fafe7e85e0235
   var desc=req.body.description;
   var author = {
     id: req.user._id,
     username: req.user.username
   }
+<<<<<<< HEAD
   geocoder.geocode(req.body.location, function (err, data) {
     var lat = data.results[0].geometry.location.lat;
     var lng = data.results[0].geometry.location.lng;
     var location = data.results[0].formatted_address;
   var newCampground = {name:name, image:image, cost: cost, description:desc, author:author, location: location, lat: lat, lng: lng}
+=======
+  var newCampground = {name:name, image:image, description:desc, author:author}
+>>>>>>> a9aa5bf2d42c49b8a824f93b2d3fafe7e85e0235
 
 
   //campgrounds.push(newCampground)
@@ -63,11 +90,18 @@ router.post("/",middleware.isLoggedIn, function(req,res){
 
       res.redirect("/campgrounds");//redirect to campgrounds page
     }
+<<<<<<< HEAD
     });
     });
 });
 //NEW Route- show form to create new campgrounds
 router.get("/new", middleware.isLoggedIn, function(req,res){
+=======
+  });
+});
+//NEW Route- show form to create new campgrounds
+router.get("/new", isLoggedIn, function(req,res){
+>>>>>>> a9aa5bf2d42c49b8a824f93b2d3fafe7e85e0235
 res.render("campgrounds/new");//New Page
 });
 
@@ -96,15 +130,23 @@ router.get("/:id", function(req,res){
 });
 
 //EDIT Campground Route
+<<<<<<< HEAD
 router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req,res){
+=======
+router.get("/:id/edit", checkCampgroundOwnership, function(req,res){
+>>>>>>> a9aa5bf2d42c49b8a824f93b2d3fafe7e85e0235
 Campground.findById(req.params.id, function(err, foundCampground){
       res.render("campgrounds/edit", {campground: foundCampground});
       });
   });
 
 //Update Campground Route
+<<<<<<< HEAD
 /*router.put("/:id", middleware.checkCampgroundOwnership, function(req,res){
 
+=======
+router.put("/:id", checkCampgroundOwnership, function(req,res){
+>>>>>>> a9aa5bf2d42c49b8a824f93b2d3fafe7e85e0235
   Campground.findByIdAndUpdate(req.params.id,req.body.campground,function(err,updatedCampground){
     if(err){
       console.log(err);
@@ -112,6 +154,7 @@ Campground.findById(req.params.id, function(err, foundCampground){
       res.redirect("/campgrounds/" +req.params.id)
     }
   })
+<<<<<<< HEAD
 }); */
 
 router.put("/:id", function(req, res){
@@ -134,6 +177,12 @@ router.put("/:id", function(req, res){
 
 //DESTROY Campground Route
 router.delete("/:id", middleware.checkCampgroundOwnership, function(req,res){
+=======
+});
+
+//DESTROY Campground Route
+router.delete("/:id", checkCampgroundOwnership, function(req,res){
+>>>>>>> a9aa5bf2d42c49b8a824f93b2d3fafe7e85e0235
   Campground.findByIdAndRemove(req.params.id, function(err){
     if(err){
       res.redirect("/campgrounds");
@@ -143,8 +192,37 @@ router.delete("/:id", middleware.checkCampgroundOwnership, function(req,res){
   });
 });
 
+<<<<<<< HEAD
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
+=======
+//middleware
+function isLoggedIn(req,res,next){
+if(req.isAuthenticated()){
+  return next();
+}
+res.redirect("/login");
+}
+
+function checkCampgroundOwnership(req,res,next){
+  if(req.isAuthenticated()){
+    Campground.findById(req.params.id, function(err, foundCampground){
+      if(err){
+        res.redirect("back");
+      }else{
+        //owner is who created campground
+      if(foundCampground.author.id.equals(req.user._id)){
+        next();
+      }else{
+        res.redirect("back");
+          }
+      }
+    });
+  }else{
+    res.redirect("back");
+  }
+}
+>>>>>>> a9aa5bf2d42c49b8a824f93b2d3fafe7e85e0235
 
 module.exports = router;

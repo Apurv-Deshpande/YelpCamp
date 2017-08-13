@@ -2,10 +2,16 @@ var express = require("express");
 var router = express.Router({mergeParams: true});
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
+<<<<<<< HEAD
 var middleware = require("../middleware")
 
 //comments new route
 router.get("/new", middleware.isLoggedIn, function(req,res){
+=======
+
+//comments new route
+router.get("/new", isLoggedIn, function(req,res){
+>>>>>>> a9aa5bf2d42c49b8a824f93b2d3fafe7e85e0235
 //find Campground by ID
   Campground.findById(req.params.id, function(err, campground){
     if(err){
@@ -16,7 +22,11 @@ router.get("/new", middleware.isLoggedIn, function(req,res){
   });
 
 //Comments post route
+<<<<<<< HEAD
 router.post("/",middleware.isLoggedIn, function(req,res){
+=======
+router.post("/",isLoggedIn, function(req,res){
+>>>>>>> a9aa5bf2d42c49b8a824f93b2d3fafe7e85e0235
   Campground.findById(req.params.id, function(err, campground){
     if(err){
       console.log(err);
@@ -24,7 +34,10 @@ router.post("/",middleware.isLoggedIn, function(req,res){
     } else{
       Comment.create(req.body.comment, function(err, comment){
         if(err){
+<<<<<<< HEAD
           req.flash("error", "Something went wrong");
+=======
+>>>>>>> a9aa5bf2d42c49b8a824f93b2d3fafe7e85e0235
           console.log(err);
         } else{
           //add username and id to comment
@@ -34,7 +47,10 @@ router.post("/",middleware.isLoggedIn, function(req,res){
           campground.comments.push(comment);
           campground.save();
           console.log(comment);
+<<<<<<< HEAD
           req.flash("success", "Successfully added Comment");
+=======
+>>>>>>> a9aa5bf2d42c49b8a824f93b2d3fafe7e85e0235
           res.redirect('/campgrounds/' + campground._id);
         }
       });
@@ -45,6 +61,7 @@ router.post("/",middleware.isLoggedIn, function(req,res){
 });
 });
 
+<<<<<<< HEAD
 //Comment edit route
 router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req,res){
   Comment.findById(req.params.comment_id,function(err, foundComment){
@@ -81,4 +98,14 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, function(req,res
     }
   })
 });
+=======
+//middleware
+function isLoggedIn(req,res,next){
+if(req.isAuthenticated()){
+  return next();
+}
+res.redirect("/login");
+}
+
+>>>>>>> a9aa5bf2d42c49b8a824f93b2d3fafe7e85e0235
 module.exports = router;

@@ -10,6 +10,7 @@
   padding: 9px;
 }
 
+<<<<<<< HEAD
 .delete-form{
   display: inline;
 }
@@ -18,3 +19,8 @@
     height: 400px;
     width: 100%;
 }
+=======
+#delete-form{
+  display: inline;
+}
+>>>>>>> a9aa5bf2d42c49b8a824f93b2d3fafe7e85e0235
